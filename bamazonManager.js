@@ -19,7 +19,7 @@ const displayInventory = () => {
 	connection.query('SELECT * FROM Products', function(err, res){
 		if(err){console.log(err)};
 		var theDisplayTable = new Table({
-			head: ['Item ID', 'Product Name', 'Category', 'Price', 'Quantity'],
+			head: ['Item ID', 'Product Name', 'Department Name', 'Price', 'Stock'],
 			colWidths: [10,25,25,10,14]
 		});
 		for(i=0; i<res.length;i++){
@@ -96,14 +96,14 @@ const addRequest = () => {
 		message: "What is name of product you would like to stock?"
 	},
 	{
-		name:"Category",
+		name:"Department",
 		type:"input",
-		message:"What is the category for product?"
+		message:"What department is this product in?"
 	},
 	{
 		name:"Price",
 		type:"input",
-		message:"What is the price for item?"
+		message:"What is the price of this item?"
 	},
 	{
 		name:"Quantity",
