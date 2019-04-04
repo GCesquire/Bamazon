@@ -2,7 +2,7 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require("cli-table");
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
 	host:"localhost",
 	port:3306,
 	user:"root",
@@ -15,7 +15,7 @@ connection.connect(function(err){
 	console.log("connected as id" + connection.threadId);
 });
 
-var displayProducts = function(){
+const displayProducts = () => {
 	var query = "Select * FROM products";
 	connection.query(query, function(err, res){
 		if(err) throw err;
@@ -33,7 +33,7 @@ var displayProducts = function(){
 	});
 }
 
-function purchasePrompt(){
+const purchasePrompt = () => {
 	inquirer.prompt([
 	{
 		name: "ID",
@@ -55,7 +55,7 @@ function purchasePrompt(){
     });
 };
 
-function purchaseOrder(ID, amtNeeded){
+const purchaseOrder = (ID, amtNeeded) => {
 	connection.query('Select * FROM products WHERE item_id = ' + ID, function(err,res){
 		if(err){console.log(err)};
 		if(amtNeeded <= res[0].stock_quantity){

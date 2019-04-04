@@ -15,7 +15,7 @@ connection.connect(function(err){
 	console.log("connected as id" + connection.threadId);
 });
 
-function displayInventory(){
+const displayInventory = () => {
 	connection.query('SELECT * FROM Products', function(err, res){
 		if(err){console.log(err)};
 		var theDisplayTable = new Table({
@@ -32,7 +32,7 @@ function displayInventory(){
 	});
 };
 
-function inquirerForUpdates(){
+const inquirerForUpdates = () => {
 	inquirer.prompt([{
 		name:"action",
 		type: "list",
@@ -53,7 +53,7 @@ function inquirerForUpdates(){
 	});
 };
 
-function restockRequest(){
+const restockRequest = () => {
 	inquirer.prompt([
 	{
 		name:"ID",
@@ -72,7 +72,7 @@ function restockRequest(){
 	});
 };
 
-function restockInventory(id, quant){
+const restockInventory = (id, quant) => {
 	connection.query('SELECT * FROM Products WHERE item_id = '+id, function(err,res){
 		if(err){console.log(err)};
 		connection.query('UPDATE Products SET stock_quantity = stock_quantity + ' +stock_quantity+ 'WHERE item_id =' +item_id);
@@ -81,7 +81,7 @@ function restockInventory(id, quant){
 	});
 };
 
-function addRequest(){
+const addRequest = () => {
 	inquirer.prompt([
 
 	{
@@ -121,12 +121,12 @@ function addRequest(){
 	});
 };
 
-function buildNewItem(name,category,price,quantity){
+const buildNewItem = (name,category,price,quantity) => {
     connection.query('INSERT INTO products (item_id,product_name,department_name,price,stock_quantity) VALUES("' + id + '","' + name + '","' + category + '",' + price + ',' + quantity +  ')');
     displayInventory();
 };
 
-function removeRequest(){
+const removeRequest = () => {
     inquirer.prompt([{
         name:"ID",
         type:"input",
@@ -137,7 +137,7 @@ function removeRequest(){
     });
 };
 
-function removeInventory(id){
+const removeInventory = (id) => {
     connection.query('DELETE FROM Products WHERE item_id = ' + id);
     displayInventory();
 };
