@@ -1,0 +1,19 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "A Bootcamp Homework",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GCesquire/Bamazon.git"
+  },
+  "author": "Giovanny Caquias",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GCesquire/Bamazon/issues"
+  },
+  "homepage": "https://github.com/GCesquire/Bamazon#readme"
+}
