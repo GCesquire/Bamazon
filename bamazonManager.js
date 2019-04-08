@@ -15,7 +15,7 @@ connection.connect(function(err){
 	console.log("connected as id" + connection.threadId);
 });
 
-const displayInventory = () => {
+const itemDisplay = () => {
 	connection.query('SELECT * FROM Products', function(err, res){
 		if(err){console.log(err)};
 		var theDisplayTable = new Table({
@@ -28,67 +28,64 @@ const displayInventory = () => {
 				);
 		}
 		console.log(theDisplayTable.toString());
-		inquirerForUpdates();
+		itemUpdates();
 	});
 };
 
-const inquirerForUpdates = () => {
+const itemUpdates = () => {
 	inquirer.prompt([{
 		name:"action",
 		type: "list",
-		message: "Choose an option below to manage current inventory:",
-		choices: ["Restock Inventory", "Add New Product", "Remove An Existing Product"]
+		message: "Choose an option below to manage inventory:",
+		choices: ["Restock", "Add Product", "Remove Product"]
 	}]).then(function(answers){
 		switch(answers.action){
-			case 'Restock Inventory':
-				restockRequest();
+			case 'Restock':
+				restockItem();
 				break;
-			case 'Add New Product':
-				addRequest();
+			case 'Add Product':
+				addItem();
 				break;
-			case 'Remove An Existing Product':
-				removeRequest();
+			case 'Remove Product':
+				removeItem();
 				break;		
 		}
 	});
 };
 
-const restockRequest = () => {
+const restockItem = () => {
 	inquirer.prompt([
 	{
 		name:"ID",
 		type:"input",
-		message:"What is the item number of the item you would like to restock?"
+		message:"What is the Item ID of the product you wish to restock?"
 	},
 	{
 		name:"Quantity",
 		type:"input",
-		message:"What is the quantity you would like to add?"
+		message:"How many would like to add?"
 	},
 	]).then(function(answers){
 		var quantityAdded = answers.Quantity;
 		var IDOfProduct = answers.ID;
-		restockInventory(IDOfProduct, quantityAdded);
+		replenishInventory(IDOfProduct, quantityAdded);
 	});
 };
 
-const restockInventory = (id, quant) => {
+const replenishInventory = (id, quant) => {
 	connection.query('SELECT * FROM Products WHERE item_id = '+id, function(err,res){
 		if(err){console.log(err)};
 		connection.query('UPDATE Products SET stock_quantity = stock_quantity + ' +stock_quantity+ 'WHERE item_id =' +item_id);
-
-		displayInventory();
+		itemDisplay();
 	});
 };
 
-const addRequest = () => {
+const addItem = () => {
 	inquirer.prompt([
-
 	{
 		name: "ID",
 		type: "input",
 		message: "Add ID Number"
-
 	},	
 	{
 		name: "Name",
@@ -110,27 +107,26 @@ const addRequest = () => {
 		type:"input",
 		message:"What is the quantity you would like to add?"
 	},
-
 	]).then(function(answers){
 		var id = answers.Id;
 		var name = answers.Name;
 		var category = answers.Category;
 		var price = answers.Price;
 		var quantity = answers.Quantity;
-		buildNewItem(id,name,category,price,quantity); 
+		newItem(id,name,category,price,quantity); 
 	});
 };
 
-const buildNewItem = (name,category,price,quantity) => {
+const newItem = (name,category,price,quantity) => {
     connection.query('INSERT INTO products (item_id,product_name,department_name,price,stock_quantity) VALUES("' + id + '","' + name + '","' + category + '",' + price + ',' + quantity +  ')');
-    displayInventory();
+    itemDisplay();
 };
 
-const removeRequest = () => {
+const removeItem = () => {
     inquirer.prompt([{
         name:"ID",
         type:"input",
-        message:"What is the item number of the item you would like to remove?"
+        message:"What is the Item ID of the product you would like to remove?"
     }]).then(function(answer){
         var id = answers.ID;
         removeInventory(id); 
@@ -139,7 +135,7 @@ const removeRequest = () => {
 
 const removeInventory = (id) => {
     connection.query('DELETE FROM Products WHERE item_id = ' + id);
-    displayInventory();
+    itemDisplay();
 };
 
-displayInventory();
+itemDisplay();

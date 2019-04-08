@@ -15,13 +15,13 @@ connection.connect(function(err){
 	console.log("connected as id" + connection.threadId);
 });
 
-const displayProducts = () => {
+const displayItems = () => {
 	var query = "Select * FROM products";
 	connection.query(query, function(err, res){
 		if(err) throw err;
 		var displayTable = new Table ({
 			head: ["Item ID", "Product Name", "Department Name", "Price", "Stock"],
-			colWidths: [10,25,25,10,14]
+			colWidths: [25,25,25,25,25]
 		});
 		for(var i = 0; i < res.length; i++){
 			displayTable.push(
@@ -29,11 +29,11 @@ const displayProducts = () => {
 				);
 		}
 		console.log(displayTable.toString());
-		purchasePrompt();
+		purchase();
 	});
 }
 
-const purchasePrompt = () => {
+const purchase = () => {
 	inquirer.prompt([
 	{
 		name: "ID",
@@ -66,8 +66,8 @@ const purchaseOrder = (ID, amtNeeded) => {
 		} else{
 			console.log("Sorry we do not have enough " + res[0].product_name + "to complete your order. Please try again!");
 		};
-		displayProducts();
+		displayItems();
 	});
 };
 
-displayProducts(); 
+displayItems(); 
